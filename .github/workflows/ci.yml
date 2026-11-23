@@ -25,6 +25,7 @@ jobs:
       - name: pmat comply
         env:
           GH_TOKEN: ${{ github.token }}
+          PMAT_REQUIRED_STATUS_CHECKS: gate
         run: |
           cargo install cargo-deny --locked
           cargo deny fetch
