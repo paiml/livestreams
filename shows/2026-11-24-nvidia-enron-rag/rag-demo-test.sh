@@ -6,7 +6,7 @@ set -u; c=${1:?corpus}; a=${2:?filing A}; b=${3:?filing B}; bad=0
 Q1='off.balance|special purpose|variable interest|unconsolidated|purchase obligations|lease guarantees'
 Q2='customers? (that|which|who)[^.]{0,80}(invest|financ)|investment in[^.]{0,60}customer|strategic investment|vendor financing|equity investment'
 Q3='accounts receivable|receivables'
-Q4='cash (provided by|used in|flows? from) operating|operating activities|net income'
+Q4='net cash provided by operating'
 n=0
 for q in "$Q1" "$Q2" "$Q3" "$Q4"; do n=$((n+1))
   for f in "$a" "$b"; do

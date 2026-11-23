@@ -63,7 +63,7 @@ timeout_ms = 60000
 mark = "c03"
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+send = ["text:pmat query --raw --regex -i --limit 400 'net cash provided by operating' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "6>"
@@ -103,7 +103,7 @@ timeout_ms = 60000
 mark = "c07"
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+send = ["text:pmat query --raw --regex -i --limit 400 'net cash provided by operating' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "10>"
