@@ -1,0 +1,96 @@
+@prefix rts: <tag:paiml.com,2026:rts#> .
+@prefix ex: <tag:paiml.com,2026:scene:locked#> .
+
+ex:scene a rts:Scene ;
+  rts:sceneId "nvidia-enron-rag" ; rts:style rts:DefaultStyle-v1 ;
+  rts:geometry ex:geom ; rts:theme ex:theme ; rts:persona ex:persona ;
+  rts:beat ex:b1 , ex:b2 , ex:b3 , ex:b4 , ex:b5 , ex:b6 , ex:b7 , ex:b8 , ex:b9 ;
+  rts:captureEnv ex:env .
+
+ex:geom rts:frameWidthPx 1920 ; rts:frameHeightPx 1080 ; rts:fps 30 ;
+  rts:cols 100 ; rts:rows 32 ; rts:cellWidthPx 12 ; rts:cellHeightPx 24 ;
+  rts:insetPx 40 ; rts:windowChrome false .
+
+ex:theme rts:background "#191925" ; rts:foreground "#abb1d2" ;
+  rts:fontFamily "DejaVu Sans Mono" ; rts:fontSha256 "b6b1ff4ddefe36d7f2a6174e1d001cab374e594519ee9049af028d577b64c5f5" ;
+  rts:colorPairUse ex:cp-0 , ex:cp-1 , ex:cp-2 .
+ex:cp-0 rts:fg "#abb1d2" ; rts:bg "#191925" ; rts:contrastRatio 8.24 .
+ex:cp-1 rts:fg "#dcb06f" ; rts:bg "#191925" ; rts:contrastRatio 8.68 .
+ex:cp-2 rts:fg "#9ec070" ; rts:bg "#191925" ; rts:contrastRatio 8.47 .
+ex:persona rts:host "mirasol" ; rts:branch "main" ; rts:cwd "~/examples" ;
+  rts:promptGlyph "❯" ; rts:hostColor "#abb1d2" ;
+  rts:branchColor "#dcb06f" ; rts:cwdColor "#9ec070" ;
+  rts:promptConfigSha256 "9328a7e2a3535eedf6f6530fa7a645242d2d492913e4a63d8586760b02504b3b" .
+
+ex:b1 rts:order 1 ;
+  rts:command [ rts:text "pmat query --raw --regex -i --limit 400 'strategic investment|equity investment|financing arrangements' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150" ; rts:charCount 163 ; rts:typingSeed 15447102925914519938 ;
+    rts:meanCps 11.73 ;
+    rts:minGapMs 31 ; rts:maxGapMs 191 ;
+    rts:thinkPauseMs 1491 ; rts:startOffsetMs 19773 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:b2 rts:order 2 ;
+  rts:command [ rts:text "pmat query --raw --regex -i --limit 400 'accounts receivable|receivables' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150" ; rts:charCount 133 ; rts:typingSeed 15447102925914585474 ;
+    rts:meanCps 11.41 ;
+    rts:minGapMs 33 ; rts:maxGapMs 216 ;
+    rts:thinkPauseMs 784 ; rts:startOffsetMs 35349 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:b3 rts:order 3 ;
+  rts:command [ rts:text "pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150" ; rts:charCount 133 ; rts:typingSeed 15447102925914651010 ;
+    rts:meanCps 11.23 ;
+    rts:minGapMs 31 ; rts:maxGapMs 202 ;
+    rts:thinkPauseMs 1072 ; rts:startOffsetMs 47974 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:b4 rts:order 4 ;
+  rts:command [ rts:text "pmat query --raw --regex -i --limit 400 'off.balance|special purpose|unconsolidated' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150" ; rts:charCount 143 ; rts:typingSeed 15447102925914716546 ;
+    rts:meanCps 11.54 ;
+    rts:minGapMs 36 ; rts:maxGapMs 193 ;
+    rts:thinkPauseMs 1011 ; rts:startOffsetMs 61173 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:b5 rts:order 5 ;
+  rts:command [ rts:text "pmat query --raw --regex -i --limit 400 'strategic investment|equity investment|financing arrangements' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150" ; rts:charCount 162 ; rts:typingSeed 15447102925914782082 ;
+    rts:meanCps 12.10 ;
+    rts:minGapMs 30 ; rts:maxGapMs 194 ;
+    rts:thinkPauseMs 771 ; rts:startOffsetMs 74752 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:b6 rts:order 6 ;
+  rts:command [ rts:text "pmat query --raw --regex -i --limit 400 'accounts receivable|receivables' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150" ; rts:charCount 132 ; rts:typingSeed 15447102925914847618 ;
+    rts:meanCps 11.49 ;
+    rts:minGapMs 32 ; rts:maxGapMs 197 ;
+    rts:thinkPauseMs 970 ; rts:startOffsetMs 89097 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:b7 rts:order 7 ;
+  rts:command [ rts:text "pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150" ; rts:charCount 132 ; rts:typingSeed 15447102925914913154 ;
+    rts:meanCps 12.70 ;
+    rts:minGapMs 30 ; rts:maxGapMs 201 ;
+    rts:thinkPauseMs 1648 ; rts:startOffsetMs 101743 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:b8 rts:order 8 ;
+  rts:command [ rts:text "export HOME=/home/noah PATH=/home/noah/.cargo/bin:/usr/bin:/bin" ; rts:charCount 63 ; rts:typingSeed 15447102925914978690 ;
+    rts:meanCps 14.01 ;
+    rts:minGapMs 30 ; rts:maxGapMs 117 ;
+    rts:thinkPauseMs 786 ; rts:startOffsetMs 260 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:b9 rts:order 9 ;
+  rts:command [ rts:text "pmat query --raw --regex -i --limit 400 'off.balance|special purpose|unconsolidated' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150" ; rts:charCount 144 ; rts:typingSeed 15447102925915044226 ;
+    rts:meanCps 10.97 ;
+    rts:minGapMs 35 ; rts:maxGapMs 206 ;
+    rts:thinkPauseMs 649 ; rts:startOffsetMs 5725 ;
+    rts:typoCount 0 ; rts:retimeScope rts:EchoOnly ] .
+
+ex:env a rts:CaptureEnvironment ;
+  rts:termctrlVersion "1.2.1" ;
+  rts:fontInstalled true ;
+  rts:termctrlOnPath true ;
+  rts:ffmpegPatched false ;
+  rts:ffmpegMajor 4 ;
+  rts:tz "UTC" ;
+  rts:lang "C.UTF-8" ;
+  rts:inheritsCredentials false .

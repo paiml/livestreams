@@ -15,69 +15,121 @@ term = "xterm-256color"
 [session.env]
 PS1 = "\\#> "
 TZ = "UTC"
+PATH = "${SCENE_DIR}/bin:/usr/bin:/bin"
+HOME = "${SCENE_DIR}/h"
 LC_ALL = "C.UTF-8"
 
-[[step]]
-wait_for = "1>"
 
 [[step]]
-
 wait_for = "1>"
-
 timeout_ms = 10000
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'off.balance|special purpose|unconsolidated' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+send = ["text:export HOME=/home/noah PATH=/home/noah/.cargo/bin:/usr/bin:/bin", "enter"]
 
 [[step]]
 wait_for = "2>"
-timeout_ms = 60000
+timeout_ms = 10000
+
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'strategic investment|equity investment|financing arrangements' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+send = ["text:pmat query --raw --regex -i --limit 400 'off.balance|special purpose|unconsolidated' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "3>"
 timeout_ms = 60000
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'accounts receivable|receivables' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+mark = "c01"
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'strategic investment|equity investment|financing arrangements' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "4>"
 timeout_ms = 60000
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+mark = "c02"
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'accounts receivable|receivables' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "5>"
 timeout_ms = 60000
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'off.balance|special purpose|unconsolidated' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+mark = "c03"
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "6>"
 timeout_ms = 60000
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'strategic investment|equity investment|financing arrangements' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+mark = "c04"
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'off.balance|special purpose|unconsolidated' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "7>"
 timeout_ms = 60000
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'accounts receivable|receivables' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+mark = "c05"
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'strategic investment|equity investment|financing arrangements' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "8>"
 timeout_ms = 60000
 
 [[step]]
-send = ["text:pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+mark = "c06"
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'accounts receivable|receivables' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
 
 [[step]]
 wait_for = "9>"
 timeout_ms = 60000
+
+[[step]]
+mark = "c07"
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
+wait_for = "10>"
+timeout_ms = 60000
+
+[render]
+fps = 30
+cell_width = 12
+cell_height = 24
+font_family = "JetBrains Mono"
+theme = "rmedia-dark"
+
+[scan]
+extra_deny = []
+
+[source]
+repo = "paiml/livestreams"
+commit = "f3655469f075a8a210e59eec771f7d6273a15df9"
+command = ["bash", "--norc", "-i"]
+workdir = "corpus"
+reads = ["enron-10k-fy2000.txt", "nvda-10k-fy2026.txt"]
+
+[[source.shown]]
+path = "enron-10k-fy2000.txt"
+sha256 = "940e08b26b70e518782447a3b344012f84d374acef23d9f9646f2fe5522326d4"
+
+[[source.shown]]
+path = "nvda-10k-fy2026.txt"
+sha256 = "8da2c33e50c1afc90d7df567f4a705db019c3ee3bedf000053ff4a3ab2393bcf"

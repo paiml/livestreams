@@ -1,0 +1,19 @@
+lock_version = 3
+spec_sha256 = "3ff18d3f2b95111b6ad628e6f2e16a881fe9272fbca9edb2e0f4a698a6cb450e"
+recording_sha256 = "2b8445c572d5049272bdeccadc868232e82730c253f9b9f173019dc34d0b4af4"
+termctrl_version = "1.2.1"
+protocol_version = 2
+captured_utc = "2026-11-23T21:43:37Z"
+demo_repo = "paiml/livestreams"
+demo_commit = "f3655469f075a8a210e59eec771f7d6273a15df9"
+demo_clean = true
+launched_command = ["bash", "--norc", "-i"]
+capture_key_sha256 = "994e7aa54383897e643fb3ccbf34f636ff4f0bf46bcbf99adead6993344ecce8"
+
+[[reads]]
+path = "enron-10k-fy2000.txt"
+object = "1db92a4785ee65b66b4f347b0f46edaa7fe1b7a7"
+
+[[reads]]
+path = "nvda-10k-fy2026.txt"
+object = "04bf1a7818105e5817dd4ca0ee5fb5c021befb16"
