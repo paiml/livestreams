@@ -1,0 +1,27 @@
+name: ci
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [master]
+jobs:
+  gate:
+    if: github.event.pull_request.draft == false || github.event_name == 'push'
+    name: gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca
+        with: { components: llvm-tools-preview }
+      - name: tests
+        run: cargo test --workspace
+      - name: 100% line coverage (main.rs is the one-line exit shim)
+        run: |
+          cargo install cargo-llvm-cov --locked
+          cargo llvm-cov --workspace --ignore-filename-regex 'main\.rs' --fail-under-lines 100
+      - name: show facts against shapes
+        run: cargo run -q -p showkit -- check shows/*/facts.toml
+      - name: pmat comply
+        run: |
+          cargo install pmat --locked
+          pmat comply check

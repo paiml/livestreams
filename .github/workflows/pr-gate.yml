@@ -8,4 +8,5 @@ on:
 
 jobs:
   authorize:
-    uses: paiml/.github/.github/workflows/pr-gate.yml@main
+    if: github.event.pull_request.draft == false
+    uses: paiml/.github/.github/workflows/pr-gate.yml@978bf4359d8dd97cceb47372962de42c95c2bbd7

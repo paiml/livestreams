@@ -1,0 +1,287 @@
+schema_version = 1
+
+[contract]
+name = "depyler-canary"
+description = "depyler lints, compiles and transpiles the canary gate."
+
+[session]
+command = ["bash", "--norc", "-i"]
+cwd = "cat"
+cols = 100
+rows = 32
+host = "none"
+term = "xterm-256color"
+
+[session.env]
+PS1 = "\\#> "
+TZ = "UTC"
+PATH = "${SCENE_DIR}/bin:/usr/bin:/bin"
+HOME = "${SCENE_DIR}/h"
+LC_ALL = "C.UTF-8"
+
+# rmedia-srt-marks v1 srt-sha256=8acea6cd1dc84a00aa21b432b7caf0f1853bfe061e9f58c178a8c8a25d430848 cues=57
+[[step]]
+wait_for = "1>"
+timeout_ms = 10000
+
+[[step]]
+mark = "c01"
+
+[[step]]
+mark = "c02"
+
+[[step]]
+send = ["text:unset LAMBDA_HEAVY_SLOT; export HOME=/home/noah PATH=/home/noah/.local/bin:/home/noah/.cargo/bin:/usr/bin:/bin; cd courses/paiml-show/show/2026-11-23/demo", "enter"]
+
+[[step]]
+wait_for = "2>"
+timeout_ms = 10000
+
+[[step]]
+mark = "c03"
+
+[[step]]
+mark = "c04"
+
+[[step]]
+send = ["text:cat canary.py", "enter"]
+
+[[step]]
+wait_for = "3>"
+timeout_ms = 10000
+
+[[step]]
+mark = "c05"
+
+[[step]]
+mark = "c06"
+
+[[step]]
+mark = "c07"
+
+[[step]]
+mark = "c08"
+
+[[step]]
+send = ["text:python3 canary.py", "enter"]
+
+[[step]]
+wait_for = "4>"
+timeout_ms = 10000
+
+[[step]]
+mark = "c09"
+
+[[step]]
+mark = "c10"
+
+[[step]]
+mark = "c11"
+
+[[step]]
+mark = "c12"
+
+[[step]]
+send = ["text:depyler lint canary.py", "enter"]
+
+[[step]]
+wait_for = "5>"
+timeout_ms = 20000
+
+[[step]]
+mark = "c13"
+
+[[step]]
+mark = "c14"
+
+[[step]]
+mark = "c15"
+
+[[step]]
+mark = "c16"
+
+[[step]]
+mark = "c17"
+
+[[step]]
+send = ["text:mkdir -p /mnt/nvme-raid0/tmp/show-cop/dp/src && depyler transpile canary.py -o /mnt/nvme-raid0/tmp/show-cop/dp/src/main.rs", "enter"]
+
+[[step]]
+wait_for = "6>"
+timeout_ms = 30000
+
+[[step]]
+mark = "c18"
+
+[[step]]
+mark = "c19"
+
+[[step]]
+mark = "c20"
+
+[[step]]
+mark = "c21"
+
+[[step]]
+mark = "c22"
+
+[[step]]
+mark = "c23"
+
+[[step]]
+mark = "c24"
+
+[[step]]
+mark = "c25"
+
+[[step]]
+send = ["text:(cd /mnt/nvme-raid0/tmp/show-cop/dp/src && CARGO_TARGET_DIR=/mnt/nvme-raid0/dev-target/depyler-demo nice -n 10 cargo build --release -j 8)", "enter"]
+
+[[step]]
+wait_for = "7>"
+timeout_ms = 300000
+
+[[step]]
+mark = "c26"
+
+[[step]]
+mark = "c27"
+
+[[step]]
+mark = "c28"
+
+[[step]]
+mark = "c29"
+
+[[step]]
+send = ["text:B=/mnt/nvme-raid0/dev-target/depyler-demo/release/main; $B", "enter"]
+
+[[step]]
+wait_for = "8>"
+timeout_ms = 10000
+
+[[step]]
+mark = "c30"
+
+[[step]]
+mark = "c31"
+
+[[step]]
+send = ["text:time (for i in $(seq 50); do python3 canary.py >/dev/null; done)", "enter"]
+
+[[step]]
+wait_for = "9>"
+timeout_ms = 60000
+
+[[step]]
+mark = "c32"
+
+[[step]]
+mark = "c33"
+
+[[step]]
+mark = "c34"
+
+[[step]]
+mark = "c35"
+
+[[step]]
+mark = "c36"
+
+[[step]]
+send = ["text:time (for i in $(seq 50); do $B >/dev/null; done)", "enter"]
+
+[[step]]
+wait_for = "10>"
+timeout_ms = 60000
+
+[[step]]
+mark = "c37"
+
+[[step]]
+mark = "c38"
+
+[[step]]
+mark = "c39"
+
+[[step]]
+mark = "c40"
+
+[[step]]
+mark = "c41"
+
+[[step]]
+mark = "c42"
+
+[[step]]
+mark = "c43"
+
+[[step]]
+send = ["text:grep -n \"fn gate\" -A 4 /mnt/nvme-raid0/tmp/show-cop/dp/src/main.rs", "enter"]
+
+[[step]]
+wait_for = "11>"
+timeout_ms = 10000
+
+[[step]]
+mark = "c44"
+
+[[step]]
+mark = "c45"
+
+[[step]]
+mark = "c46"
+
+[[step]]
+mark = "c47"
+
+[[step]]
+mark = "c48"
+
+[[step]]
+mark = "c49"
+
+[[step]]
+mark = "c50"
+
+[[step]]
+mark = "c51"
+
+[[step]]
+mark = "c52"
+
+[[step]]
+mark = "c53"
+
+[[step]]
+mark = "c54"
+
+[[step]]
+mark = "c55"
+
+[[step]]
+mark = "c56"
+
+[[step]]
+mark = "c57"
+
+[render]
+fps = 30
+cell_width = 12
+cell_height = 24
+font_family = "JetBrains Mono"
+theme = "rmedia-dark"
+
+[scan]
+extra_deny = []
+
+[source]
+repo = "paiml/catalogue"
+commit = "9d30eabe0c28d82b23c54b4a54fe24db8dd4baff"
+command = ["bash", "--norc", "-i"]
+workdir = "cat"
+reads = ["courses/paiml-show/show/2026-11-23/demo"]
+
+[[source.shown]]
+path = "courses/paiml-show/show/2026-11-23/demo/canary.py"
+sha256 = "bffb01d28ddc06933f8c77dd063a240ea1ee8c99b7532bb2e46a983b086e02d6"

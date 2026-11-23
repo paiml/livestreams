@@ -1,0 +1,9 @@
+# Measured 2026-11-23 on obs-sfx/bashrs-replay-v3.mp4 (ffprobe, ffmpeg ebur128 + signalstats).
+# loudness -18.1 LUFS is below the -16..-12 mean-volume target of 11-23; the shape floor is -24.
+title = "bashrs: the shell, checked, live"
+duration_s = 193.234
+loudness_lufs = -18.1
+true_peak_dbfs = -3.6
+black_frames = 11
+max_black_run_s = 0.17
+refusal_text = 0

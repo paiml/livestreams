@@ -1,0 +1,13 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix show: <https://github.com/paiml/livestreams#> .
+
+# One shape per render fact; crates/showkit enforces exactly these bounds (a test keeps the two in step).
+show:ShowShape a sh:NodeShape ;
+  sh:targetClass show:Show ;
+  sh:property [ sh:path show:title ; sh:minCount 1 ; sh:minLength 1 ] ;
+  sh:property [ sh:path show:duration_s ; sh:datatype xsd:decimal ; sh:minInclusive 60 ; sh:maxInclusive 3600 ] ;
+  sh:property [ sh:path show:loudness_lufs ; sh:datatype xsd:decimal ; sh:minInclusive -24 ; sh:maxInclusive -12 ] ;
+  sh:property [ sh:path show:true_peak_dbfs ; sh:datatype xsd:decimal ; sh:maxInclusive -1 ] ;
+  sh:property [ sh:path show:max_black_run_s ; sh:datatype xsd:decimal ; sh:maxInclusive 0.5 ] ;
+  sh:property [ sh:path show:refusal_text ; sh:datatype xsd:integer ; sh:maxInclusive 0 ] .

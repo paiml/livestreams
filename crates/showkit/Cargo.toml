@@ -1,0 +1,6 @@
+[package]
+name = "showkit"
+version = "0.1.0"
+edition = "2021"
+description = "Checks the measured render facts of one livestream against the show shapes"
+license = "MIT"

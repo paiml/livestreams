@@ -1,0 +1,259 @@
+schema_version = 1
+
+[contract]
+name = "paiml-show-2026-11-22-1-demo"
+description = "bashrs 7.4.4 demo on deploy.sh and fixed.sh: cat, lint, explain, score (F 4.2/10 -> C- 5.7/10)."
+
+[session]
+command = ["bash", "--norc", "--noprofile"]
+cwd = "."
+cols = 93
+rows = 25
+host = "none"
+term = "xterm-256color"
+
+[session.env]
+PATH = "${RMEDIA_TOOLS}:/usr/bin:/bin"
+PS1 = "$ "
+TZ = "UTC"
+LC_ALL = "C.UTF-8"
+
+# rmedia-srt-marks v1 srt-sha256=9792181f86684cc1d19c9210a150e2bfbbe68c8e2bb3b28b9a2613116244e04d cues=61
+[[step]]
+wait_for = "$"
+timeout_ms = 10000
+
+[[step]]
+mark = "c01"
+
+[[step]]
+mark = "c02"
+
+[[step]]
+send = ["text:cat deploy.sh", "enter"]
+
+[[step]]
+wait_for = "deployed at"
+timeout_ms = 10000
+
+[[step]]
+mark = "c03"
+
+[[step]]
+mark = "c04"
+
+[[step]]
+mark = "c05"
+
+[[step]]
+mark = "c06"
+
+[[step]]
+send = ["text:bashrs lint deploy.sh", "enter"]
+
+[[step]]
+wait_for = "Summary:"
+timeout_ms = 30000
+
+[[step]]
+mark = "c07"
+
+[[step]]
+mark = "c08"
+
+[[step]]
+mark = "c09"
+
+[[step]]
+mark = "c10"
+
+[[step]]
+mark = "c11"
+
+[[step]]
+mark = "c12"
+
+[[step]]
+mark = "c13"
+
+[[step]]
+mark = "c14"
+
+[[step]]
+mark = "c15"
+
+[[step]]
+mark = "c16"
+
+[[step]]
+mark = "c17"
+
+[[step]]
+mark = "c18"
+
+[[step]]
+mark = "c19"
+
+[[step]]
+mark = "c20"
+
+[[step]]
+mark = "c21"
+
+[[step]]
+mark = "c22"
+
+[[step]]
+mark = "c23"
+
+[[step]]
+send = ["text:bashrs explain deploy.sh", "enter"]
+
+[[step]]
+wait_for = "machine-readable safety classification."
+timeout_ms = 30000
+
+[[step]]
+mark = "c24"
+
+[[step]]
+mark = "c25"
+
+[[step]]
+send = ["text:bashrs score deploy.sh", "enter"]
+
+[[step]]
+wait_for = "Significant improvements required."
+timeout_ms = 30000
+
+[[step]]
+mark = "c26"
+
+[[step]]
+mark = "c27"
+
+[[step]]
+mark = "c28"
+
+[[step]]
+mark = "c29"
+
+[[step]]
+mark = "c30"
+
+[[step]]
+mark = "c31"
+
+[[step]]
+mark = "c32"
+
+[[step]]
+mark = "c33"
+
+[[step]]
+mark = "c34"
+
+[[step]]
+mark = "c35"
+
+[[step]]
+mark = "c36"
+
+[[step]]
+mark = "c37"
+
+[[step]]
+mark = "c38"
+
+[[step]]
+mark = "c39"
+
+[[step]]
+mark = "c40"
+
+[[step]]
+mark = "c41"
+
+[[step]]
+mark = "c42"
+
+[[step]]
+mark = "c43"
+
+[[step]]
+mark = "c44"
+
+[[step]]
+mark = "c45"
+
+[[step]]
+mark = "c46"
+
+[[step]]
+mark = "c47"
+
+[[step]]
+mark = "c48"
+
+[[step]]
+send = ["text:cat fixed.sh", "enter"]
+
+[[step]]
+wait_for = "echo \"deployed $SESSION_ID at $(date)\""
+timeout_ms = 10000
+
+[[step]]
+mark = "c49"
+
+[[step]]
+mark = "c50"
+
+[[step]]
+mark = "c51"
+
+[[step]]
+mark = "c52"
+
+[[step]]
+mark = "c53"
+
+[[step]]
+send = ["text:bashrs score fixed.sh", "enter"]
+
+[[step]]
+wait_for = "6. Add comments to explain complex logic"
+timeout_ms = 30000
+
+[[step]]
+mark = "c54"
+
+[[step]]
+mark = "c55"
+
+[[step]]
+mark = "c56"
+
+[[step]]
+mark = "c57"
+
+[[step]]
+mark = "c58"
+
+[[step]]
+mark = "c59"
+
+[[step]]
+mark = "c60"
+
+[[step]]
+mark = "c61"
+
+[render]
+fps = 60
+cell_width = 20
+cell_height = 40
+font_family = "DejaVu Sans Mono"
+theme = "rts-default-v1"
+
+[scan]
+extra_deny = []

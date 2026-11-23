@@ -1,0 +1,9 @@
+# Measured 2026-11-23 on obs-sfx/depyler-stream-v3.mp4 (ffprobe, ffmpeg ebur128 + signalstats).
+# Black frames are the 3 cross-fades (0 s, 184.0 s, 191.9 s); longest run 5 frames = 0.17 s.
+title = "depyler: Python to Rust, live"
+duration_s = 198.534
+loudness_lufs = -15.2
+true_peak_dbfs = -2.1
+black_frames = 11
+max_black_run_s = 0.17
+refusal_text = 0
