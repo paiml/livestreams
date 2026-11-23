@@ -19,9 +19,65 @@ LC_ALL = "C.UTF-8"
 
 [[step]]
 wait_for = "1>"
+
+[[step]]
+
+wait_for = "1>"
+
 timeout_ms = 10000
 
 [[step]]
-send = "pmat query --raw --regex -i --limit 3 'off.balance|special purpose|unconsolidated' -p .\n"
+send = ["text:pmat query --raw --regex -i --limit 400 'off.balance|special purpose|unconsolidated' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
 wait_for = "2>"
+timeout_ms = 60000
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'strategic investment|equity investment|financing arrangements' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
+wait_for = "3>"
+timeout_ms = 60000
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'accounts receivable|receivables' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
+wait_for = "4>"
+timeout_ms = 60000
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^enron-10k-fy2000.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
+wait_for = "5>"
+timeout_ms = 60000
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'off.balance|special purpose|unconsolidated' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
+wait_for = "6>"
+timeout_ms = 60000
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'strategic investment|equity investment|financing arrangements' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
+wait_for = "7>"
+timeout_ms = 60000
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'accounts receivable|receivables' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
+wait_for = "8>"
+timeout_ms = 60000
+
+[[step]]
+send = ["text:pmat query --raw --regex -i --limit 400 'operating activities|net income' -p . | grep '^nvda-10k-fy2026.txt' | head -3 | cut -c1-150", "enter"]
+
+[[step]]
+wait_for = "9>"
 timeout_ms = 60000
