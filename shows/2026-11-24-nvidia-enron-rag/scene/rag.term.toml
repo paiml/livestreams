@@ -1,0 +1,27 @@
+schema_version = 1
+
+[contract]
+name = "nvidia-enron-rag"
+description = "pmat query answers four questions with cited passages from two 10-Ks."
+
+[session]
+command = ["bash", "--norc", "-i"]
+cwd = "corpus"
+cols = 100
+rows = 32
+host = "none"
+term = "xterm-256color"
+
+[session.env]
+PS1 = "\\#> "
+TZ = "UTC"
+LC_ALL = "C.UTF-8"
+
+[[step]]
+wait_for = "1>"
+timeout_ms = 10000
+
+[[step]]
+send = "pmat query --raw --regex -i --limit 3 'off.balance|special purpose|unconsolidated' -p .\n"
+wait_for = "2>"
+timeout_ms = 60000
