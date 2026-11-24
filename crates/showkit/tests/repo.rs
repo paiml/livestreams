@@ -14,7 +14,21 @@ fn every_show_dir_has_facts_that_pass() {
             continue;
         }
         let f = p.join("facts.toml");
-        assert!(f.exists(), "{} has no facts.toml", f.display());
+        if !f.exists() {
+            // pre-render show: allowed only with a scene to render from
+            let has_scene = std::fs::read_dir(p.join("scene"))
+                .map(|d| {
+                    d.flatten()
+                        .any(|x| x.file_name().to_string_lossy().ends_with(".term.toml"))
+                })
+                .unwrap_or(false);
+            assert!(
+                has_scene,
+                "{} has neither facts.toml nor scene/*.term.toml",
+                p.display()
+            );
+            continue;
+        }
         assert_eq!(
             showkit::run(&["check".into(), f.display().to_string()]),
             0,
