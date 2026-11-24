@@ -3,6 +3,48 @@
 
 use std::collections::BTreeMap;
 
+fn strip_comment(line: &str) -> &str {
+    let mut in_quotes = false;
+    let mut esc = false;
+    for (idx, c) in line.char_indices() {
+        if esc {
+            esc = false;
+        } else if in_quotes && c == '\\' {
+            esc = true;
+        } else if c == '"' {
+            in_quotes = !in_quotes;
+        } else if !in_quotes && c == '#' {
+            return &line[..idx];
+        }
+    }
+    line
+}
+
+fn unquote(s: &str, line: usize) -> Result<String, String> {
+    let mut out = String::with_capacity(s.len());
+    let mut chars = s.chars();
+    while let Some(c) = chars.next() {
+        match c {
+            '"' => {
+                return if chars.as_str().is_empty() {
+                    Ok(out)
+                } else {
+                    Err(format!("line {line}: trailing characters after quote"))
+                };
+            }
+            '\\' => {
+                let Some(esc) = chars.next() else { break };
+                if !matches!(esc, '"' | '\\') {
+                    out.push('\\');
+                }
+                out.push(esc);
+            }
+            _ => out.push(c),
+        }
+    }
+    Err(format!("line {line}: unclosed quote"))
+}
+
 /// Parse flat `key = value` lines; `#` comments and blank lines are skipped; strings may be quoted.
 ///
 /// # Errors
@@ -10,8 +52,8 @@ use std::collections::BTreeMap;
 pub fn parse(text: &str) -> Result<BTreeMap<String, String>, String> {
     let mut m = BTreeMap::new();
     for (i, raw) in text.lines().enumerate() {
-        let l = raw.trim();
-        if l.is_empty() || l.starts_with('#') {
+        let l = strip_comment(raw).trim();
+        if l.is_empty() {
             continue;
         }
         let (k, v) = l
@@ -23,12 +65,10 @@ pub fn parse(text: &str) -> Result<BTreeMap<String, String>, String> {
         }
         let v = v.trim();
         let v = match v.strip_prefix('"') {
-            Some(s) => s
-                .strip_suffix('"')
-                .ok_or_else(|| format!("line {}: unclosed quote", i + 1))?,
-            None => v,
+            Some(s) => unquote(s, i + 1)?,
+            None => v.to_string(),
         };
-        if m.insert(k.to_string(), v.to_string()).is_some() {
+        if m.insert(k.to_string(), v).is_some() {
             return Err(format!("line {}: duplicate key {k}", i + 1));
         }
     }
@@ -118,6 +158,25 @@ true_peak_dbfs = -2.1\nmax_black_run_s = 0.17\nrefusal_text = 0\n";
         assert!(parse("= x\n").unwrap_err().contains("empty key"));
         assert!(parse("a = 1\na = 2\n").unwrap_err().contains("duplicate"));
         assert!(parse("title = \"Demo\n").unwrap_err().contains("unclosed"));
+    }
+
+    #[test]
+    fn parse_strips_inline_comments_and_unescapes_quotes() {
+        let m = facts(
+            "title = \"Say \\\"Hi\\\" #1\" # quoted + comment\n\
+             slash = \"C:\\\\\" # escaped backslash before quote\n\
+             other = \"a\\nb\" # non-quote escape preserved\n\
+             duration_s = 198.5 # unquoted + comment\n",
+        );
+        assert_eq!(m["title"], "Say \"Hi\" #1");
+        assert_eq!(m["slash"], "C:\\");
+        assert_eq!(m["other"], "a\\nb");
+        assert_eq!(m["duration_s"], "198.5");
+        assert!(parse("title = \"\\\"\n").unwrap_err().contains("unclosed"));
+        assert!(parse("title = \"\\").unwrap_err().contains("unclosed"));
+        assert!(parse("title = \"a\" \"b\"\n")
+            .unwrap_err()
+            .contains("trailing"));
     }
 
     #[test]
