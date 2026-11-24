@@ -6,8 +6,8 @@
 show:ShowShape a sh:NodeShape ;
   sh:targetClass show:Show ;
   sh:property [ sh:path show:title ; sh:minCount 1 ; sh:maxCount 1 ; sh:minLength 1 ; sh:pattern "\\S" ] ;
-  sh:property [ sh:path show:duration_s ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 60 ; sh:maxInclusive 3600 ] ;
-  sh:property [ sh:path show:loudness_lufs ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive -24 ; sh:maxInclusive -12 ] ;
-  sh:property [ sh:path show:true_peak_dbfs ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive -60 ; sh:maxInclusive -1 ] ;
-  sh:property [ sh:path show:max_black_run_s ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 0.5 ] ;
+  sh:property [ sh:path show:duration_s ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:datatype xsd:decimal ] [ sh:datatype xsd:integer ] ) ; sh:minInclusive 60 ; sh:maxInclusive 3600 ] ;
+  sh:property [ sh:path show:loudness_lufs ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:datatype xsd:decimal ] [ sh:datatype xsd:integer ] ) ; sh:minInclusive -24 ; sh:maxInclusive -12 ] ;
+  sh:property [ sh:path show:true_peak_dbfs ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:datatype xsd:decimal ] [ sh:datatype xsd:integer ] ) ; sh:minInclusive -60 ; sh:maxInclusive -1 ] ;
+  sh:property [ sh:path show:max_black_run_s ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:datatype xsd:decimal ] [ sh:datatype xsd:integer ] ) ; sh:minInclusive 0 ; sh:maxInclusive 0.5 ] ;
   sh:property [ sh:path show:refusal_text ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ; sh:maxInclusive 0 ] .
