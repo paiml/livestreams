@@ -30,7 +30,7 @@ fn unquote(s: &str, line: usize) -> Result<String, String> {
 
 fn literal(s: &str, line: usize) -> Result<String, String> {
     match s.split_once('\'') {
-        Some((lit, rest)) if blank_or_comment(rest) => Ok(format!("'{lit}'")),
+        Some((lit, rest)) if blank_or_comment(rest) => Ok(lit.to_string()),
         _ => Err(format!("line {line}: bad literal string")),
     }
 }
@@ -271,7 +271,19 @@ mod parse_edge_tests {
 
     #[test]
     fn single_quoted_literal_keeps_hash() {
-        assert_eq!(parse("t = 'C# live' # c\n").unwrap()["t"], "'C# live'");
+        assert_eq!(parse("t = 'C# live' # c\n").unwrap()["t"], "C# live");
         assert!(parse("t = 'open\n").is_err());
+    }
+}
+
+#[cfg(test)]
+mod literal_tests {
+    use super::{check, parse};
+
+    #[test]
+    fn empty_single_quoted_title_fails_check() {
+        let m = parse("title = ''\n").unwrap();
+        assert_eq!(m["title"], "");
+        assert!(!check(&m).is_empty());
     }
 }
