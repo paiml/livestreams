@@ -17,7 +17,20 @@ pub fn parse(text: &str) -> Result<BTreeMap<String, String>, String> {
         let (k, v) = l
             .split_once('=')
             .ok_or_else(|| format!("line {}: no '='", i + 1))?;
-        m.insert(k.trim().to_string(), v.trim().trim_matches('"').to_string());
+        let k = k.trim();
+        if k.is_empty() {
+            return Err(format!("line {}: empty key", i + 1));
+        }
+        let v = v.trim();
+        let v = match v.strip_prefix('"') {
+            Some(s) => s
+                .strip_suffix('"')
+                .ok_or_else(|| format!("line {}: unclosed quote", i + 1))?,
+            None => v,
+        };
+        if m.insert(k.to_string(), v.to_string()).is_some() {
+            return Err(format!("line {}: duplicate key {k}", i + 1));
+        }
     }
     Ok(m)
 }
@@ -93,6 +106,13 @@ true_peak_dbfs = -2.1\nmax_black_run_s = 0.17\nrefusal_text = 0\n";
 
     fn facts(s: &str) -> BTreeMap<String, String> {
         parse(s).unwrap()
+    }
+
+    #[test]
+    fn parse_rejects_empty_duplicate_and_unclosed() {
+        assert!(parse("= x\n").unwrap_err().contains("empty key"));
+        assert!(parse("a = 1\na = 2\n").unwrap_err().contains("duplicate"));
+        assert!(parse("title = \"Demo\n").unwrap_err().contains("unclosed"));
     }
 
     #[test]
