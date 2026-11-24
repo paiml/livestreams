@@ -61,7 +61,12 @@ pub fn check(m: &BTreeMap<String, String>) -> Vec<String> {
     range(m, "loudness_lufs", -24.0, -12.0, &mut out);
     range(m, "true_peak_dbfs", -60.0, -1.0, &mut out);
     range(m, "max_black_run_s", 0.0, 0.5, &mut out);
-    range(m, "refusal_text", 0.0, 0.0, &mut out);
+    match m.get("refusal_text").map(|v| v.parse::<i64>()) {
+        Some(Ok(0)) => {}
+        Some(Ok(v)) => out.push(format!("refusal_text: {v} outside 0..0")),
+        Some(Err(_)) => out.push("refusal_text: not an integer".to_string()),
+        None => out.push("refusal_text: missing".to_string()),
+    }
     out
 }
 
@@ -113,6 +118,14 @@ true_peak_dbfs = -2.1\nmax_black_run_s = 0.17\nrefusal_text = 0\n";
         assert!(parse("= x\n").unwrap_err().contains("empty key"));
         assert!(parse("a = 1\na = 2\n").unwrap_err().contains("duplicate"));
         assert!(parse("title = \"Demo\n").unwrap_err().contains("unclosed"));
+    }
+
+    #[test]
+    fn refusal_text_must_be_integer_zero_and_present() {
+        let f = facts(&GOOD.replace("refusal_text = 0", "refusal_text = 0.0"));
+        assert!(check(&f).iter().any(|e| e.contains("not an integer")));
+        let g = facts(&GOOD.replace("refusal_text = 0\n", ""));
+        assert!(check(&g).iter().any(|e| e.contains("missing")));
     }
 
     #[test]
