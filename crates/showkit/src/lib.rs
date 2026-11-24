@@ -3,30 +3,13 @@
 
 use std::collections::BTreeMap;
 
-fn strip_comment(line: &str) -> &str {
-    let mut in_quotes = false;
-    let mut esc = false;
-    for (idx, c) in line.char_indices() {
-        if esc {
-            esc = false;
-        } else if in_quotes && c == '\\' {
-            esc = true;
-        } else if c == '"' {
-            in_quotes = !in_quotes;
-        } else if !in_quotes && c == '#' {
-            return &line[..idx];
-        }
-    }
-    line
-}
-
 fn unquote(s: &str, line: usize) -> Result<String, String> {
     let mut out = String::with_capacity(s.len());
     let mut chars = s.chars();
     while let Some(c) = chars.next() {
         match c {
             '"' => {
-                return if chars.as_str().is_empty() {
+                return if blank_or_comment(chars.as_str()) {
                     Ok(out)
                 } else {
                     Err(format!("line {line}: trailing characters after quote"))
@@ -45,6 +28,28 @@ fn unquote(s: &str, line: usize) -> Result<String, String> {
     Err(format!("line {line}: unclosed quote"))
 }
 
+fn literal(s: &str, line: usize) -> Result<String, String> {
+    match s.split_once('\'') {
+        Some((lit, rest)) if blank_or_comment(rest) => Ok(format!("'{lit}'")),
+        _ => Err(format!("line {line}: bad literal string")),
+    }
+}
+
+fn blank_or_comment(rest: &str) -> bool {
+    let r = rest.trim();
+    r.is_empty() || r.starts_with('#')
+}
+
+fn value(v: &str, line: usize) -> Result<String, String> {
+    if let Some(s) = v.strip_prefix('"') {
+        unquote(s, line)
+    } else if let Some(s) = v.strip_prefix('\'') {
+        literal(s, line)
+    } else {
+        Ok(v.split('#').next().unwrap_or("").trim().to_string())
+    }
+}
+
 /// Parse flat `key = value` lines; `#` comments and blank lines are skipped; strings may be quoted.
 ///
 /// # Errors
@@ -52,8 +57,8 @@ fn unquote(s: &str, line: usize) -> Result<String, String> {
 pub fn parse(text: &str) -> Result<BTreeMap<String, String>, String> {
     let mut m = BTreeMap::new();
     for (i, raw) in text.lines().enumerate() {
-        let l = strip_comment(raw).trim();
-        if l.is_empty() {
+        let l = raw.trim();
+        if l.is_empty() || l.starts_with('#') {
             continue;
         }
         let (k, v) = l
@@ -64,10 +69,7 @@ pub fn parse(text: &str) -> Result<BTreeMap<String, String>, String> {
             return Err(format!("line {}: empty key", i + 1));
         }
         let v = v.trim();
-        let v = match v.strip_prefix('"') {
-            Some(s) => unquote(s, i + 1)?,
-            None => v.to_string(),
-        };
+        let v = value(v, i + 1)?;
         if m.insert(k.to_string(), v).is_some() {
             return Err(format!("line {}: duplicate key {k}", i + 1));
         }
@@ -253,5 +255,23 @@ true_peak_dbfs = -2.1\nmax_black_run_s = 0.17\nrefusal_text = 0\n";
         assert_eq!(run(&[c]), 2);
         assert_eq!(run(&["other".to_string(), s(&ok)]), 2);
         std::fs::remove_dir_all(&d).unwrap();
+    }
+}
+
+#[cfg(test)]
+mod parse_edge_tests {
+    use super::parse;
+
+    #[test]
+    fn quote_in_key_or_value_does_not_hide_comment() {
+        assert_eq!(parse("t = foo\"bar # c\n").unwrap()["t"], "foo\"bar");
+        assert_eq!(parse("a\"b = 1 # c\n").unwrap()["a\"b"], "1");
+        assert_eq!(parse("a\" = \"x\" # c\n").unwrap()["a\""], "x");
+    }
+
+    #[test]
+    fn single_quoted_literal_keeps_hash() {
+        assert_eq!(parse("t = 'C# live' # c\n").unwrap()["t"], "'C# live'");
+        assert!(parse("t = 'open\n").is_err());
     }
 }
