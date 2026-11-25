@@ -24,7 +24,7 @@ jobs:
         run: cargo run -q -p showkit -- check shows/*/facts.toml
       - name: pmat comply
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PMAT_PROTECTION_TOKEN || github.token }}
           PMAT_REQUIRED_STATUS_CHECKS: gate
         run: |
           cargo install cargo-deny --locked
